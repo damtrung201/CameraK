@@ -6,6 +6,6 @@ import com.example.camerak.camera.model.camerametadata.CameraSettings
 
 data class CameraState(
     val currentMode: CaptureMode = CaptureMode.PHOTO,
-    val isRecording: Boolean = false,
-    val settings: CameraSettings = CameraSettings()
+    val settings: CameraSettings = CameraSettings(),
+    val previewState: PreviewState = PreviewState.IDLE
 )

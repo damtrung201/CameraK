@@ -1,13 +1,18 @@
 package com.example.camerak.camera.viewmodel
 
 import android.view.SurfaceHolder
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.camerak.camera.model.camerametadata.ConfigurableSetting
+import com.example.camerak.camera.model.camerametadata.QuickSettingHelper
+import com.example.camerak.camera.model.camerametadata.SettingKey
 import com.example.camerak.camera.model.engine.CameraEngine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,6 +25,21 @@ class CameraViewModel(
     private val _cameraState = MutableStateFlow(CameraState())
     val cameraState = _cameraState.asStateFlow()
 
+    data class CameraUiState(
+        val settingsMap: Map<SettingKey<*>, ConfigurableSetting<*>> = emptyMap()
+        // ...
+    )
+
+    private val _uiState = MutableStateFlow(CameraUiState())
+    val uiState: StateFlow<CameraUiState> = _uiState.asStateFlow()
+
+    fun updateSetting(settingKey: SettingKey<*>, newConfig: ConfigurableSetting<*>) {
+        _uiState.update { currentState ->
+            val newMap = currentState.settingsMap.toMutableMap()
+            newMap[settingKey] = newConfig
+            currentState.copy(settingsMap = newMap.toMap()) // Tạo state mới với map mới
+        }
+    }
     /**
      * Hàm chính để nhận và xử lý tất cả các hành động từ View.
      */

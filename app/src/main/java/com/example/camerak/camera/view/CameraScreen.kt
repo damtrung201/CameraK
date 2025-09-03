@@ -5,27 +5,34 @@ import android.view.SurfaceView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.camerak.camera.view.components.BottomControls
 import com.example.camerak.camera.view.components.QuickSettingsList
 import com.example.camerak.camera.view.components.ShootingModeList
 import com.example.camerak.camera.viewmodel.CameraAction
+import com.example.camerak.camera.viewmodel.CameraState
 import com.example.camerak.camera.viewmodel.CameraViewModel
 import com.example.camerak.camera.viewmodel.CameraViewModelFactory
+import com.example.camerak.camera.viewmodel.CaptureMode
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -49,6 +56,7 @@ fun CameraScreen() {
     }
 }
 
+
 @Composable
 fun CameraView() {
     val viewModel: CameraViewModel = viewModel(
@@ -60,13 +68,14 @@ fun CameraView() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black),
-        contentAlignment = Alignment.Center
     ) {
-        // Vùng hiển thị Camera Preview
+
         AndroidView(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(3f / 4f),
+                .padding(top = 40.dp)
+                .aspectRatio(3f / 4f)
+                .align(Alignment.TopStart),
             factory = { context ->
                 SurfaceView(context).apply {
                     holder.addCallback(object : SurfaceHolder.Callback {
@@ -86,15 +95,17 @@ fun CameraView() {
 
         // Lớp phủ chứa các điều khiển
         Column(modifier = Modifier.fillMaxSize()) {
-            QuickSettingsList()
+
             Spacer(modifier = Modifier.weight(1f))
-            ShootingModeList(
-                currentMode = cameraState.currentMode,
-                onModeChange = { viewModel.setCaptureMode(it) }
-            )
+            QuickSettingsList(cameraViewModel = viewModel)
+
             BottomControls(
-                cameraState = cameraState,
-                onAction = viewModel::onAction
+                cameraState = CameraState(),
+                onAction = {}
+            )
+            ShootingModeList(
+                currentMode = CaptureMode.PHOTO,
+                onModeChange = {  }
             )
         }
     }

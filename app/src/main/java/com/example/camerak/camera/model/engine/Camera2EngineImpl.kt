@@ -61,7 +61,7 @@ class Camera2EngineImpl(
 
     // Hàm mới để chọn kích thước
     private fun chooseOptimalPreviewSize(supportedSizes: Array<Size>): Size {
-        val targetRatio = 4.0 / 3.0
+        val targetRatio = 3.0 / 4.0
         return supportedSizes.filter {
             abs((it.width.toDouble() / it.height) - targetRatio) < 0.1
         }.maxByOrNull { it.height * it.width } ?: supportedSizes[0]

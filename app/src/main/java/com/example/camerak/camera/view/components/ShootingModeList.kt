@@ -18,7 +18,7 @@ fun ShootingModeList(
     onModeChange: (CaptureMode) -> Unit
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(bottom = 8.dp),
+        modifier = modifier.fillMaxWidth().padding(bottom = 20.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically
     ) {
