@@ -30,17 +30,7 @@ fun BottomControls(
             Image(painter = painterResource(id = R.drawable.gallery), contentDescription = "Gallery")
         }
 
-        val currentMode = cameraState.currentMode
-        IconButton(
-            modifier = Modifier.size(90.dp),
-            onClick = {
-                val action = if (currentMode == CaptureMode.PHOTO) CameraAction.TakePhoto else CameraAction.ToggleRecording
-                onAction(action)
-            }
-        ) {
-            val shutterIcon = R.drawable.shutter
-            Image(modifier = Modifier.fillMaxWidth(),painter = painterResource(id = shutterIcon), contentDescription = "Action Button")
-        }
+        ShutterButton(Modifier, cameraState, onAction)
 
         IconButton(
             modifier = Modifier.size(70.dp).padding(end = 20.dp),

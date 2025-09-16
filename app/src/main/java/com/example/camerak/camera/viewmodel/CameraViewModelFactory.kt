@@ -5,6 +5,7 @@ package com.example.camerak.camera.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.camerak.camera.model.camerametadata.CameraSettings
 import com.example.camerak.camera.model.engine.CameraEngine
 import com.yourcompany.camerapp.camera.model.engine.Camera2EngineImpl
 import kotlinx.coroutines.MainScope
@@ -18,9 +19,9 @@ class CameraViewModelFactory(private val context: Context) : ViewModelProvider.F
             val engineScope = MainScope()
 
             val engine: CameraEngine = Camera2EngineImpl(context, engineScope)
-
+            val cameraSettings = CameraSettings()
             // ViewModel sẽ nhận engine và có trách nhiệm hủy scope khi nó bị hủy
-            return CameraViewModel(engine, engineScope) as T
+            return CameraViewModel(engine, engineScope, cameraSettings) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

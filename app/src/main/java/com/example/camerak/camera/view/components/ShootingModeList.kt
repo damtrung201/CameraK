@@ -9,13 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.camerak.camera.viewmodel.CameraAction
+import com.example.camerak.camera.viewmodel.CameraState
 import com.example.camerak.camera.viewmodel.CaptureMode
 
 @Composable
 fun ShootingModeList(
     modifier: Modifier = Modifier,
-    currentMode: CaptureMode,
-    onModeChange: (CaptureMode) -> Unit
+    cameraState: CameraState,
+    onModeChange: (CameraAction) -> Unit
 ) {
     Row(
         modifier = modifier.fillMaxWidth().padding(bottom = 20.dp),
@@ -23,12 +25,12 @@ fun ShootingModeList(
         verticalAlignment = Alignment.CenterVertically
     ) {
         CaptureMode.values().forEach { mode ->
-            val isSelected = mode == currentMode
+            val isSelected = mode == cameraState.currentMode
             Text(
                 text = mode.name,
                 color = if (isSelected) Color.Yellow else Color.White,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier.clickable { onModeChange(mode) }
+                modifier = Modifier.clickable { onModeChange(CameraAction.ChangeMode) }
             )
         }
     }

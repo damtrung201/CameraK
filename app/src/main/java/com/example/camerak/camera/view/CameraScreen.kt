@@ -86,26 +86,28 @@ fun CameraView() {
                         }
                         override fun surfaceDestroyed(holder: SurfaceHolder) = Unit
                         override fun surfaceChanged(holder: SurfaceHolder, f: Int, w: Int, h: Int) {
-                            viewModel.onAction(CameraAction.PreviewSizeChanged(w, h))
+                            viewModel.onAction(
+                                CameraAction.PreviewSizeChanged(width, height)
+                            )
                         }
                     })
                 }
             }
         )
-
+        val settingsState by viewModel.quickSettingsState.collectAsState()
         // Lớp phủ chứa các điều khiển
         Column(modifier = Modifier.fillMaxSize()) {
 
             Spacer(modifier = Modifier.weight(1f))
-            QuickSettingsList(cameraViewModel = viewModel)
+//            QuickSettingsList( settingsState, viewModel::onSettingClicked)
 
             BottomControls(
-                cameraState = CameraState(),
-                onAction = {}
+                cameraState = cameraState,
+                onAction = viewModel::onAction
             )
             ShootingModeList(
-                currentMode = CaptureMode.PHOTO,
-                onModeChange = {  }
+                cameraState = cameraState,
+                onModeChange = viewModel::onAction
             )
         }
     }
