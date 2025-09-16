@@ -7,6 +7,5 @@ sealed interface CameraAction {
     data class PreviewSizeChanged(val width: Int, val height: Int) : CameraAction
     object ShutterClick : CameraAction
     object SwitchCamera : CameraAction
-    object ChangeMode : CameraAction
 
 }

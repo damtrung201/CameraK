@@ -107,7 +107,7 @@ fun CameraView() {
             )
             ShootingModeList(
                 cameraState = cameraState,
-                onModeChange = viewModel::onAction
+                onModeChange = viewModel::onChangeMode
             )
         }
     }

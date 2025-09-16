@@ -17,7 +17,7 @@ import com.example.camerak.camera.viewmodel.CaptureMode
 fun ShootingModeList(
     modifier: Modifier = Modifier,
     cameraState: CameraState,
-    onModeChange: (CameraAction) -> Unit
+    onModeChange: (CaptureMode) -> Unit
 ) {
     Row(
         modifier = modifier.fillMaxWidth().padding(bottom = 20.dp),
@@ -30,7 +30,7 @@ fun ShootingModeList(
                 text = mode.name,
                 color = if (isSelected) Color.Yellow else Color.White,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                modifier = Modifier.clickable { onModeChange(CameraAction.ChangeMode) }
+                modifier = Modifier.clickable { onModeChange(mode) }
             )
         }
     }

@@ -68,10 +68,10 @@ class CameraViewModel(
         CaptureMode.PHOTO to ::handlePhotoCapture,
         CaptureMode.VIDEO to ::handleVideoCapture
     )
-    private fun handleChangeMode(){
+    private fun handleChangeMode(mode: CaptureMode){
         Log.i("trung.dam", "handleChangeMode: ")
-        cameraEngine.changeMode(CaptureMode.VIDEO)
-        _cameraState.value = _cameraState.value.copy(currentMode = CaptureMode.VIDEO)
+        cameraEngine.changeMode(mode)
+        _cameraState.value = _cameraState.value.copy(mode)
     }
     private fun handleSwitchCamera() {
         Log.i("trung.dam", "handleSwitchCamera: ")
@@ -129,21 +129,15 @@ class CameraViewModel(
                     handleShutterClick()
                 }
 
-                CameraAction.ChangeMode -> {
-                    handleChangeMode()
-                }
+
             }
         }
     }
 
-    /**
-     * Cập nhật chế độ chụp (PHOTO/VIDEO).
-     */
-    fun setCaptureMode(mode: CaptureMode) {
-        _cameraState.update { it.copy(currentMode = mode) }
-        // TODO: Yêu cầu CameraEngine thay đổi chế độ hoạt động
-        // Ví dụ: cameraEngine.setCaptureMode(mode)
+    fun onChangeMode(mode: CaptureMode) {
+        handleChangeMode(mode)
     }
+
 
     /**
      * Được gọi khi ViewModel bị hủy.
